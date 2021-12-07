@@ -16,5 +16,11 @@ public class TestController {
 	public String check() {
 		String url = "http://localhost:8080/test/";
 		return template.getForObject(url, String.class);
+
 	}
+	@GetMapping("/users")
+	public List<User> getAll() {
+		return service.getAll();
+	}
+
 }
