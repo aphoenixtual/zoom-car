@@ -1,5 +1,5 @@
 package com.project.backend.service;
 
-public class AddressService {
+public class CarService {
 
 }

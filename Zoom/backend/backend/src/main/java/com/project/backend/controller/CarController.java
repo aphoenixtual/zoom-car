@@ -1,5 +1,5 @@
 package com.project.backend.controller;
 
-public class AddressController {
+public class CarController {
 
 }
