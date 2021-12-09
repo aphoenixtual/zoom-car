@@ -27,6 +27,7 @@ public class UserController {
 
 
 	//Getting all user details
+	@CrossOrigin
 	@GetMapping("/users")
 	public List<User> getAll() {
 		return service.getAll();
@@ -35,6 +36,7 @@ public class UserController {
 
 
 	//Getting all user details with a particular id
+
 	@GetMapping("/users/{id}")
 	public User getUserById(@PathVariable int id)
 	{

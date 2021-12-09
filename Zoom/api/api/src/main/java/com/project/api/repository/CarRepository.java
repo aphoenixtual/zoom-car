@@ -20,6 +20,8 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
 
 	public List<Car> findByPincode(int pincode);
 
+
+
 	/**************************************************/
 
 	public List<Car> findByCompany(String company);
@@ -28,5 +30,8 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
 	
 	/**************************************************/
 
+	public List<Car> findByPincodeAndNumberOfSeat(int pincode,int numberOfSeats);
+
+	public List<Car> findByPincodeAndNumberOfSeatAndCompany(int pincode,int numberOfSeats,String company);
 	// More Filtering Option Here
 }

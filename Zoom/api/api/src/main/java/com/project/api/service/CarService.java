@@ -11,7 +11,7 @@ import com.project.api.repository.CarRepository;
 
 /**
  * 
- * @author Aayush.C
+ * @author Aayush.C and Ankit
  *
  */
 
@@ -21,10 +21,15 @@ public class CarService implements MySerivce<Car> {
 	@Autowired
 	private CarRepository repo;
 
+
+
+	//CRUD operations******************************
 	@Override
 	public List<Car> getAll() {
 		return repo.findAll();
 	}
+
+
 
 	@Override
 	public Car getById(int id) {
@@ -45,5 +50,44 @@ public class CarService implements MySerivce<Car> {
 	public void delete(int id) {
 		repo.deleteById(id);
 	}
+
+//*************************************************
+
+
+	//All Filters are here
+
+
+	public List<Car> getByPinAndSeat(int pincode,int numberOfSeats)
+	{
+		return repo.findByPincodeAndNumberOfSeat(pincode,numberOfSeats);
+	}
+
+	public List<Car> getCarByPincode(int pincode){
+		return repo.findByPincode(pincode);
+
+	}
+
+	public List<Car> getCarByCompany(String company){
+		return repo.findByCompany(company);
+
+	}
+
+	public List<Car> getCarByNumberOfSeat(int numberOfSeat){
+
+		return repo.findByNumberOfSeat(numberOfSeat);
+
+	}
+
+	public List<Car> getCarByCity(String city){
+		return repo.findByCity(city);
+
+	}
+
+	public List<Car> getCarBypincodeCityPinSeats(int pincode,int numberOfSeat,String company)
+	{
+		return repo.findByPincodeAndNumberOfSeatAndCompany(pincode,numberOfSeat,company);
+	}
+
+
 
 }
