@@ -46,4 +46,7 @@ public class UserService implements MySerivce<User> {
 		repo.deleteById(id);
 	}
 
+	public User findByUserName(String userName) {
+		return repo.findByUserName(userName);
+	}
 }

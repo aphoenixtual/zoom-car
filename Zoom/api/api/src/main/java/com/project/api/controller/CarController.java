@@ -1,7 +1,8 @@
 package com.project.api.controller;
 
+import java.util.Collections;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +29,8 @@ import com.project.api.service.CarService;
 @RequestMapping("/car")
 public class CarController {
 
+	private List<Car> filterCarList;
+	
 	@Autowired
 	private CarService service;
 
@@ -63,4 +66,24 @@ public class CarController {
 		return service.update(currentCar);
 	}
 
+	@GetMapping("/cars/search/{item}")
+	public List<Car> searchBy(@PathVariable String item){
+		filterCarList = service.searchBy(item);
+		return filterCarList;
+	}
+	
+	@GetMapping("/cars/search/filter/{item}")
+	public List<Car> filterCarList(@PathVariable String item){
+		
+		List<Car> filterCars = filterCarList.stream()
+		.filter((car) -> car.getCompany().equals(item) || 
+				car.getModel().equals(item) || 
+				car.getNumberOfSeat() == Integer.parseInt(item))
+		.collect(Collectors.toList());
+		
+		Collections.sort(filterCars, (c1, c2) -> (int)(c2.getRating() - c1.getRating()));
+		return filterCarList;
+		
+	}
+	
 }

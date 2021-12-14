@@ -46,4 +46,7 @@ public class CarService implements MySerivce<Car> {
 		repo.deleteById(id);
 	}
 
+	public List<Car> searchBy(String search){
+		return repo.findByPincodeContainsOrCityContainsAllIgnoreCase(search, search);
+	}
 }

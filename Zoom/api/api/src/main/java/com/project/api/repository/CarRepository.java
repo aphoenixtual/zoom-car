@@ -29,4 +29,7 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
 	/**************************************************/
 
 	// More Filtering Option Here
+	
+	public List<Car> findByPincodeContainsOrCityContainsAllIgnoreCase(String pincode, String city);
+	
 }

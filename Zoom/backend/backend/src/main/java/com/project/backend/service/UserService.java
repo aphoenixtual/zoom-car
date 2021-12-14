@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.backend.entity.Address;
+import com.project.backend.entity.Car;
 import com.project.backend.entity.User;
 
 @Service
@@ -22,6 +23,11 @@ public class UserService {
 
 	public User getById(int id) {
 		String url1 = url + "/" + id;
+		return template.getForObject(url1, User.class);
+	}
+
+	public User getByUserName(String username) {
+		String url1 = url + "/name/" + username;
 		return template.getForObject(url1, User.class);
 	}
 
@@ -48,4 +54,8 @@ public class UserService {
 		return template.postForObject(url1, myAddress, User.class);
 	}
 
+	public List<Car> getCars(String item) {
+		String carUrl = "http://localhost:8080/car/cars/search/" + item;
+		return Arrays.asList(template.getForObject(url, Car[].class));
+	}
 }

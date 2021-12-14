@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.api.entity.Address;
 import com.project.api.entity.User;
 import com.project.api.service.MySerivce;
+import com.project.api.service.UserService;
 
 /**
  * 
@@ -29,7 +30,7 @@ import com.project.api.service.MySerivce;
 public class UserController {
 
 	@Autowired
-	MySerivce<User> service;
+	private UserService service;
 
 	@GetMapping("/users")
 	public List<User> getAll() {
@@ -61,5 +62,12 @@ public class UserController {
 		User currentUser = service.getById(id);
 		currentUser.addAddress(theAddress);
 		return service.update(currentUser);
+	}
+	
+	@GetMapping("/users/name/{username}")
+	public User getByUserName(@PathVariable String username) {
+		User user = null;
+		user = service.findByUserName(username);
+		return user; 
 	}
 }
