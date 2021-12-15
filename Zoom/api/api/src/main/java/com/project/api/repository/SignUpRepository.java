@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface SignUpRepository extends JpaRepository<signup, Integer> {
     public signup findByEmail(String email);
-    public signup findByNameAndPassword(String name,String password);
+    public signup findByEmailAndPassword(String name,String password);
 
 }
