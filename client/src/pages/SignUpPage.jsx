@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import Logo from "../components/NavigationBar/Logo";
-import { sendActivationCode } from "../redux/customerSlice/customerSlice";
+import { userRegister } from "../redux/customerSlice/customerSlice";
 
 function SignUpPage() {
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -15,7 +18,24 @@ function SignUpPage() {
   const [pincode, setPincode] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+
+  async function submitHandler(values){
+   const response = await axios.post('http://localhost:8080/user/users',{
+          userName: userName,
+          email: email,
+          firstName: firstName,
+          lastName: lastName,
+          phoneNumber: phoneNumber,
+          state: state,
+          area: area,
+          city: city,
+          pincode: pincode,
+          password: password,
+          confirmPassword: confirmPassword
+   })
+   console.log(response)
+  }
 
   const activationCodeSentMessage = useSelector(
     (state) => state.customer.activationCodeSentMessage
@@ -27,23 +47,24 @@ function SignUpPage() {
     }
   }, [activationCodeSentMessage]);
 
-  function submitHandler() {
-    dispatch(
-      sendActivationCode({
-        email: email,
-        firstName: firstName,
-        lastName: lastName,
-        phoneNumber: phoneNumber,
-        state: state,
-        area: area,
-        city: city,
-        pincode: pincode,
-        password: password,
-        confirmPassword: confirmPassword
+  // function submitHandler() {
+  //   dispatch(
+  //     sendActivationCode({
+  //       email: email,
+  //       firstName: firstName,
+  //       lastName: lastName,
+  //       phoneNumber: phoneNumber,
+  //       state: state,
+  //       area: area,
+  //       city: city,
+  //       pincode: pincode,
+  //       password: password,
+  //       confirmPassword: confirmPassword
         
-      })
-    );
-  }
+  //     })
+  //   );
+  
+
 
   return (
     <div style={{ marginLeft: "auto", marginRight: "auto" }}>
@@ -59,6 +80,29 @@ function SignUpPage() {
           <Logo></Logo>
         </div>
         <div style={{ padding: 50 }}>
+        <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: 25,
+            }}
+          >
+            <div>
+              <h4 style={{ textAlign: "left", fontSize: 20, color: "white" }}>
+                Username
+              </h4>
+              <input
+                onChange={(e) => setUserName(e.target.value)}
+                style={{
+                  borderRadius: "5px",
+                  height: "3em",
+                  padding: 20,
+                  letterSpacing: 2,
+                  fontWeight: "bold",
+                }}
+              ></input>
+            </div>
+          <div>
           <h4 style={{ textAlign: "left", fontSize: 20, color: "white" }}>
             Email
           </h4>
@@ -74,6 +118,8 @@ function SignUpPage() {
               fontWeight: "bold",
             }}
           ></input>
+          </div>
+          </div>
           <div
             style={{
               display: "flex",
@@ -128,7 +174,7 @@ function SignUpPage() {
               fontWeight: "bold",
             }}
           ></input>
-
+            
            <div
             style={{
               display: "flex",
@@ -282,8 +328,7 @@ function SignUpPage() {
               marginTop: 40,
             }}
           >
-            Activate your account for being able to rent a car. Check your email
-            after registration
+             <Link to='/signin'> Click here to Login </Link>
           </p>
         </div>
       </div>

@@ -1,6 +1,8 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import Logo from "../components/NavigationBar/Logo";
 import {
   getCustomers,
@@ -12,7 +14,7 @@ import {
 function SignInPage() {
   const dispatch = useDispatch();
   const history = useHistory()
-  const [email, setEmail] = useState("");
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const customers = useSelector((state) => state.customer.items);
   const loggedIn = useSelector((state) => state.customer.loggedIn);
@@ -20,7 +22,7 @@ function SignInPage() {
   useEffect(() => {
     if (loggedIn) {
       customers.forEach((customer) => {
-        if (customer.email == email) {
+        if (customer.username == username) {
           dispatch(setCurrentCustomer(customer));
         }
       });
@@ -34,10 +36,17 @@ function SignInPage() {
     dispatch(getCustomers());
   }, [dispatch]);
 
-  function submitHandler() {
-    dispatch(logCustomerIn({ email: email, password: password }));
-    
-  }
+  async function submitHandler(values){
+    const response = await axios.post('http://localhost:8080/user/users/{username}/{password}',{
+           username,
+           password,
+           history,
+           customers,
+           loggedIn
+          
+    })
+    console.log(response)
+   }
 
   return (
     <div style={{ marginLeft: "auto", marginRight: "auto" }}>
@@ -54,13 +63,13 @@ function SignInPage() {
         </div>
         <div style={{ padding: 50 }}>
           <h4 style={{ textAlign: "left", fontSize: 20, color: "white" }}>
-            Email
+            Username
           </h4>
           <input
             autoComplete="false"
             autoCapitalize="false"
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
+            onChange={(e) => setUserName(e.target.value)}
+            type="username"
             style={{
               borderRadius: "5px",
               width: "100%",
@@ -99,8 +108,7 @@ function SignInPage() {
               marginTop: 40,
             }}
           >
-            If you haven’t activated your account yet, please check your email
-            and use the activation code
+            <Link to='/signup'> Click here to register </Link>
           </p>
         </div>
       </div>
