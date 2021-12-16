@@ -49,4 +49,8 @@ public class CarService implements MySerivce<Car> {
 	public List<Car> searchBy(String search){
 		return repo.findByPincodeContainsOrCityContainsAllIgnoreCase(search, search);
 	}
+	
+	public Car findByNumberPlate(String numberPlate) {
+		return repo.findByNumberPlate(numberPlate);
+	}
 }

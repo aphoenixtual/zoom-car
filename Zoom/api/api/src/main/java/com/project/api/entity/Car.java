@@ -55,6 +55,9 @@ public class Car {
 	public Car() {
 	}
 
+	public Car(int id) {
+		this.id = id;
+	}
 	public Car(String numberPlate, String company, String model, int numberOfSeat, String fuelType, double rating,
 			int baseFairPrice) {
 		this.numberPlate = numberPlate;

@@ -1,6 +1,7 @@
 package com.project.api.controller;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,6 @@ import com.project.api.entity.Car;
 import com.project.api.entity.Review;
 import com.project.api.service.CarService;
 
-
 /**
  * 
  * @author Aayush.C
@@ -30,7 +30,7 @@ import com.project.api.service.CarService;
 public class CarController {
 
 	private List<Car> filterCarList;
-	
+
 	@Autowired
 	private CarService service;
 
@@ -46,7 +46,11 @@ public class CarController {
 
 	@PostMapping("/cars")
 	public Car addNew(@RequestBody Car theCar) {
-		return service.addNew(theCar);
+		Car car = service.findByNumberPlate(theCar.getNumberPlate());
+		if(car == null) {
+			return service.addNew(theCar);
+		}
+		return null;
 	}
 
 	@PutMapping("/cars")
@@ -67,23 +71,30 @@ public class CarController {
 	}
 
 	@GetMapping("/cars/search/{item}")
-	public List<Car> searchBy(@PathVariable String item){
+	public List<Car> searchBy(@PathVariable String item) {
 		filterCarList = service.searchBy(item);
 		return filterCarList;
 	}
-	
+
 	@GetMapping("/cars/search/filter/{item}")
 	public List<Car> filterCarList(@PathVariable String item){
 		
 		List<Car> filterCars = filterCarList.stream()
-		.filter((car) -> car.getCompany().equals(item) || 
+		.filter((car) -> (car.getCompany().equals(item) || 
 				car.getModel().equals(item) || 
-				car.getNumberOfSeat() == Integer.parseInt(item))
+				car.getNumberOfSeat() == Integer.parseInt(item))).collect(Collectors.toList());
+		
+		filterCars = filterCars.stream()
+		.sorted(Comparator.comparingDouble(Car::getRating))
 		.collect(Collectors.toList());
 		
-		Collections.sort(filterCars, (c1, c2) -> (int)(c2.getRating() - c1.getRating()));
 		return filterCarList;
 		
 	}
 	
+	@GetMapping("/cars/numberplate/{numberPlate}")
+	public Car findByNumberPlate(String numberPlate) {
+		return service.findByNumberPlate(numberPlate);
+	}
+
 }

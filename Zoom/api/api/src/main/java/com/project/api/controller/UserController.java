@@ -20,7 +20,6 @@ import com.project.api.service.UserService;
 /**
  * 
  * @author Prashant.V
- * Note: Need to add Roles
  *
  */
 
@@ -37,6 +36,12 @@ public class UserController {
 		return service.getAll();
 	}
 
+	@GetMapping("/users/testing/{value}")
+	public void test(@PathVariable String value) {
+		System.out.println("*******************************************************************");
+		System.out.println(value);
+	}
+	
 	@GetMapping("/users/{id}")
 	public User getById(@PathVariable int id) {
 		return service.getById(id);
@@ -44,6 +49,7 @@ public class UserController {
 
 	@PostMapping("/users")
 	public User addNew(@RequestBody User theUser) {
+		System.out.println(theUser.getFirstName() + " : " + theUser.getLastName());
 		return service.addNew(theUser);
 	}
 

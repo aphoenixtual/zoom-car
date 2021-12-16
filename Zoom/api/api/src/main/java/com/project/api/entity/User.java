@@ -57,6 +57,10 @@ public class User {
 
 	public User() {
 	}
+	public User(int id) {
+		this.id = id;
+	}
+	
 
 	public User(String firstName, String lastName, Long number, String email) {
 		this.firstName = firstName;
